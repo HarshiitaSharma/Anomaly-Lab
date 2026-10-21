@@ -1,33 +1,44 @@
 demo:
 <img width="1062" height="902" alt="image" src="https://github.com/user-attachments/assets/60d50dbb-eae2-4d7c-8c98-1865d12323d0" />
-# Anomaly Lab
 
-An interactive playground for time-series anomaly detection, running entirely in the browser.
+# Anomaly Lab 📈
 
-A synthetic sensor signal (seasonal cycle + slow trend + noise) hides a few injected spikes. Pick a detector, tune it, and watch precision, recall and F1 change live. Click the chart to add or remove a spike.
+An interactive playground for time-series anomaly detection. A synthetic sensor signal has a
+trend, a seasonal cycle, noise and hidden spikes. Pick a detector, tune it, and watch precision,
+recall and F1 change. Plain HTML/CSS/JS, no build step, no dependencies.
 
-One static HTML file. No build step, no dependencies, no data leaves your browser.
+## Features
 
-## Detectors
-
-- **Global z-score**: compares every point to the overall mean and spread.
-- **Rolling z-score**: compares each point to the previous *window* points.
-- **Median residual (MAD)**: subtracts a rolling median (a simple stand-in for STL-style decomposition) and scores the residual with a robust MAD-based z-score.
-
-A flag counts as correct if it lands within one step of a true spike.
-
-## Controls
-
-Method, window size, threshold, noise level, **New signal**, and **Download CSV** (index, value, true spike, flagged, score).
+- Four detectors: **global z-score**, **rolling z-score**, **EWMA control chart**, **median residual (MAD)**
+- Window, threshold and noise sliders; click the chart to add or remove a true spike
+- Precision / recall / F1 against the injected spikes
+- **Auto-tune threshold** picks the best F1 threshold for the current method
+- **Compare methods**: F1 for every detector on the same signal
+- CSV export, dark mode, installable offline PWA
 
 ## Run it
 
-Open `index.html`, or host it with GitHub Pages (**Settings → Pages → Deploy from a branch → `main` / root**).
+```bash
+python3 -m http.server 8000   # open http://localhost:8000
+npm test                      # unit tests for the detectors (Node 18+)
+```
 
-## Ideas for later
+## Add a detector
 
-- Real STL decomposition and an EWMA detector
-- Isolation Forest running in the browser
-- Upload your own CSV time series
-- Level-shift and drift anomalies, not just spikes
-- Precision-recall curve across thresholds
+Add a branch to `detect()` in `detectors.js` returning `{ score, lo, hi, mid, flagged }`,
+add an `<option>` in `index.html`, and a test in `test/detectors.test.js`.
+
+## Files
+
+```
+index.html  styles.css  script.js  detectors.js  sweep.js
+test/detectors.test.js  package.json
+pwa.js  sw.js  manifest.webmanifest  icon.svg
+.github/workflows/{pages,test}.yml  CHANGELOG.md  LICENSE
+```
+
+## Ideas
+
+- Seasonal-trend decomposition (STL) detector
+- Upload your own CSV
+- ROC-style precision/recall curve across thresholds
