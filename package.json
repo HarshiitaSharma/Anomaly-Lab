@@ -1,0 +1,8 @@
+{
+  "name": "anomaly-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive anomaly detection playground",
+  "scripts": { "test": "node --test" },
+  "license": "MIT"
+}
