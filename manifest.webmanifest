@@ -1,0 +1,9 @@
+{
+  "name": "Anomaly Lab",
+  "short_name": "Anomaly",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#14152A",
+  "theme_color": "#3B3FD9",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
